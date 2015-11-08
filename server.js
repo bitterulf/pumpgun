@@ -43,7 +43,7 @@ module.exports  = function server (config, cb) {
     {register: require('good'), options: options.good },
     {register: require('vision'), options: {} },
     {register: require('inert'), options: {} },
-    {register: require('./plugins/web.js'), options: {} },
+    {register: require('./plugins/web.js'), options: {city: config.city} },
     {register: require('./plugins/main.js'), options: {} }
   ], function(err) {
     if (err) {

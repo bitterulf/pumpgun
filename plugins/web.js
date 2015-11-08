@@ -12,6 +12,26 @@ exports.register = function (server, options, next) {
     }
   });
 
+  server.route({
+    method: 'GET',
+    path:'/indeed',
+    handler: function (request, reply) {
+      require('../provider/indeed.js').list(options.city, 1, function(err, result) {
+        reply(result);
+      });
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path:'/stepstone',
+    handler: function (request, reply) {
+      require('../provider/stepstone.js').list(options.city, 1, function(err, result) {
+        reply(result);
+      });
+    }
+  });
+
   next();
 };
 
