@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/bitterulf/pumpgun#readme",
   "dependencies": {
-    "hapi": "^11.1.0"
+    "hapi": "^11.1.0",
+    "vision": "^4.0.0"
   },
   "devDependencies": {
     "jshint": "^2.8.0",

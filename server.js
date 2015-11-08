@@ -11,15 +11,30 @@ module.exports  = function server (config, cb) {
     method: 'GET',
     path:'/',
     handler: function (request, reply) {
-
-      return reply('<h1>welcome</h1>');
+      reply.view('layout', {
+        title: 'welcome'
+      });
     }
   });
 
-  server.start(function(err) {
+  server.register(require('vision'), function(err) {
     if (err) {
       return cb(err);
     }
-    cb(null);
+
+    server.views({
+      engines: { jade: require('jade') },
+      path: __dirname + '/templates',
+      compileOptions: {
+        pretty: true
+      }
+    });
+
+    server.start(function(err) {
+      if (err) {
+        return cb(err);
+      }
+      cb(null);
+    });
   });
 };
