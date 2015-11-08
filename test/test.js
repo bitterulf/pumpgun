@@ -3,12 +3,16 @@ process.env.NODE_ENV = 'test';
 var assert = require("assert");
 var Browser = require('zombie');
 
+var host = 'localhost';
+var port = 8080;
+var site = 'http://'+host+':'+port;
+
 describe('webserver', function(){
   before(function(done) {
     var that = this;
-    require('../server.js')({host: 'localhost', port: 8080}, function(err, server) {
+    require('../server.js')({host: host, port: port}, function(err, server) {
       that.server = server;
-      that.browser = new Browser({site: 'http://localhost:8080'});
+      that.browser = new Browser({site: site});
       done();
     });
   });
