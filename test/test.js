@@ -16,15 +16,22 @@ describe('webserver', function(){
       done();
     });
   });
-
-  before(function(done) {
-    this.browser.visit('/', done);
-  });
-
   describe('index page', function(){
+    before(function(done) {
+      this.browser.visit('/', done);
+    });
     it('should display welcome as heading', function() {
       assert.ok(this.browser.success);
       assert.equal(this.browser.text('h1'), 'welcome');
+    });
+  }),
+  describe('static page', function(){
+    before(function(done) {
+      this.browser.visit('/test.html', done);
+    });
+    it('should display test passed', function() {
+      assert.ok(this.browser.success);
+      assert.equal(this.browser.text('div'), 'test passed');
     });
   })
 });
