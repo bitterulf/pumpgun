@@ -12,7 +12,7 @@ module.exports  = function server (config, cb) {
     path:'/',
     handler: function (request, reply) {
 
-      return reply('welcome');
+      return reply('<h1>welcome</h1>');
     }
   });
 
@@ -20,7 +20,6 @@ module.exports  = function server (config, cb) {
     if (err) {
       return cb(err);
     }
-    console.log('Server running at:', server.info.uri);
     cb(null);
   });
 };
