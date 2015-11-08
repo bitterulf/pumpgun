@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bitterulf/pumpgun/issues"
   },
-  "homepage": "https://github.com/bitterulf/pumpgun#readme"
+  "homepage": "https://github.com/bitterulf/pumpgun#readme",
+  "dependencies": {
+    "hapi": "^11.1.0"
+  }
 }
