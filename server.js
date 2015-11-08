@@ -31,6 +31,7 @@ module.exports  = function server (config, cb) {
   server.register([
     {register: require('good'), options: options.good },
     {register: require('vision'), options: {} },
+    {register: require('./plugins/web.js'), options: {} },
     {register: require('./plugins/main.js'), options: {} }
   ], function(err) {
     if (err) {

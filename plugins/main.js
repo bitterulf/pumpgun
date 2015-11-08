@@ -1,13 +1,18 @@
+var seneca = require('seneca')();
+
 exports.register = function (server, options, next) {
-  server.route({
-    method: 'GET',
-    path:'/',
-    handler: function (request, reply) {
-      reply.view('default', {
+  var seneca = require('seneca')();
+
+  seneca.add({ role:'request', cmd:'index' }, function (args, callback) {
+    callback(null, {
+      view: 'default',
+      context: {
         title: 'welcome'
-      });
-    }
-  });
+      }
+    })
+  })
+
+  seneca.listen();
 
   next();
 };
