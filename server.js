@@ -7,16 +7,6 @@ module.exports  = function server (config, cb) {
     port: config.port
   });
 
-  server.route({
-    method: 'GET',
-    path:'/',
-    handler: function (request, reply) {
-      reply.view('default', {
-        title: 'welcome'
-      });
-    }
-  });
-
   server.register({
     register: require('good'),
     options: {
@@ -48,11 +38,16 @@ module.exports  = function server (config, cb) {
         }
       });
 
-      server.start(function(err) {
+      server.register(require('./plugins/main.js'), function(err) {
         if (err) {
           return cb(err);
         }
-        cb(null);
+        server.start(function(err) {
+          if (err) {
+            return cb(err);
+          }
+          cb(null);
+        });
       });
     });
   });
