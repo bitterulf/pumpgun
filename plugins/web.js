@@ -19,7 +19,8 @@ exports.register = function (server, options, next) {
       client.act({
         role:'scrape', cmd:'indeed', city: options.city, limit: 1, testUrl: 'http://localhost/examples/indeed.html'
       }, function (err, result) {
-        reply(result.entries);
+        result.title = 'indeed';
+        reply.view('jobList', result);
       });
     }
   });
@@ -31,7 +32,8 @@ exports.register = function (server, options, next) {
       client.act({
         role:'scrape', cmd:'stepstone', city: options.city, limit: 1, testUrl: 'http://localhost/examples/stepstone.html'
       }, function (err, result) {
-        reply(result.entries);
+        result.title = 'stepstone';
+        reply.view('jobList', result);
       });
     }
   });
