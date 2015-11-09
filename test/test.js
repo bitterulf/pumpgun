@@ -41,10 +41,23 @@ describe('webserver', function(){
     it('should display scraped indeed content', function() {
       assert.ok(this.browser.success);
       assert.equal(this.browser.text('h1'), 'indeed');
-      this.browser.assert.text('#jl_f6c90cad1d1406ba a[href="http://localhost/rc/clk?jk=f6c90cad1d1406ba"] h2', 'Betreuer (m/w)');
-      this.browser.assert.text('#jl_f6c90cad1d1406ba div.company', 'UNIONHILFSWERK');
-      this.browser.assert.text('#jl_f6c90cad1d1406ba div.location', 'Berlin');
+      this.browser.assert.text('#_jl_f6c90cad1d1406ba a[href="http://localhost/rc/clk?jk=f6c90cad1d1406ba"] h2', 'Betreuer (m/w)');
+      this.browser.assert.text('#_jl_f6c90cad1d1406ba div.company', 'UNIONHILFSWERK');
+      this.browser.assert.text('#_jl_f6c90cad1d1406ba div.location', 'Berlin');
       this.browser.assert.elements('.job', 10);
+    });
+  })
+  describe('stepstone test rendering', function(){
+    before(function(done) {
+      this.browser.visit('/test/stepstone', done);
+    });
+    it('should display scraped stepstone content', function() {
+      assert.ok(this.browser.success);
+      assert.equal(this.browser.text('h1'), 'stepstone');
+      this.browser.assert.text('#_3538945 a[href="http://localhost/stellenangebote--Fachinformatiker-in-Systemintegration-Berlin-Integrate-It-Netzwerke-GmbH--3538945-inline.html?isHJ=false&isHJR=false&ssaPOP=13&ssaPOR=13"] h2', 'Fachinformatiker/in - Systemintegration');
+      this.browser.assert.text('#_3538945 div.company', 'Integrate-It Netzwerke GmbH');
+      this.browser.assert.text('#_3538945 div.location', 'Berlin');
+      this.browser.assert.elements('.job', 25);
     });
   })
 });
