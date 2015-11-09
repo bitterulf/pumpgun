@@ -34,4 +34,13 @@ describe('webserver', function(){
       assert.equal(this.browser.text('div'), 'test passed');
     });
   })
+  describe('indeed test rendering', function(){
+    before(function(done) {
+      this.browser.visit('/test/indeed', done);
+    });
+    it('should display scraped indeed content', function() {
+      assert.ok(this.browser.success);
+      assert.equal(this.browser.text('h1'), 'indeed');
+    });
+  })
 });

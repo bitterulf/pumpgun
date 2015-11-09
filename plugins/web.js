@@ -14,10 +14,11 @@ exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
-    path:'/indeed',
+    path:'/test/indeed',
     handler: function (request, reply) {
       client.act({
-        role:'scrape', cmd:'indeed', city: options.city, limit: 1, testUrl: 'http://localhost/examples/indeed.html'
+        role:'scrape', cmd:'indeed', city: options.city, limit: 1,
+        testUrl: 'http://localhost:'+options.port+'/examples/indeed.html'
       }, function (err, result) {
         result.title = 'indeed';
         reply.view('jobList', result);
@@ -27,10 +28,11 @@ exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
-    path:'/stepstone',
+    path:'/test/stepstone',
     handler: function (request, reply) {
       client.act({
-        role:'scrape', cmd:'stepstone', city: options.city, limit: 1, testUrl: 'http://localhost/examples/stepstone.html'
+        role:'scrape', cmd:'stepstone', city: options.city, limit: 1,
+        testUrl: 'http://localhost:'+options.port+'/examples/stepstone.html'
       }, function (err, result) {
         result.title = 'stepstone';
         reply.view('jobList', result);
