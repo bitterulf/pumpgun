@@ -7,4 +7,9 @@ block content
   h1= title
   div
     each entry in entries
-      div= entry.id
+      div(id=entry.id)
+        a(href=entry.url)
+          h2= entry.title
+        div.company= entry.company
+        div.location= entry.location
+        div.date= entry.date
