@@ -5,8 +5,6 @@ module.exports = function(rs, cb) {
   var result = '';
   var counter = 0;
   var ws = stream.writable(function(chunk, enc, callback) {
-    counter++;
-    console.log(counter);
     result += chunk.toString();
     callback();
   });

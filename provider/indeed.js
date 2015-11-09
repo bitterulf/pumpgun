@@ -25,6 +25,9 @@ module.exports = {
       result = JSON
         .parse(result)
         .map(function(obj){
+          if (!obj.company) {
+            obj.company = '';
+          }
           obj.company = obj.company.replace('\n', '').trim();
           obj.provider = 'indeed';
           obj.date = (new Date()).toISOString()+' '+obj.date;
