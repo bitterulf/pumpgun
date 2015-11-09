@@ -16,8 +16,10 @@ exports.register = function (server, options, next) {
     method: 'GET',
     path:'/indeed',
     handler: function (request, reply) {
-      require('../provider/indeed.js').list(options.city, 1, function(err, result) {
-        reply(result);
+      client.act({
+        role:'scrape', cmd:'indeed', city: options.city, limit: 1, testUrl: 'http://localhost/examples/indeed.html'
+      }, function (err, result) {
+        reply(result.entries);
       });
     }
   });
@@ -26,8 +28,10 @@ exports.register = function (server, options, next) {
     method: 'GET',
     path:'/stepstone',
     handler: function (request, reply) {
-      require('../provider/stepstone.js').list(options.city, 1, function(err, result) {
-        reply(result);
+      client.act({
+        role:'scrape', cmd:'stepstone', city: options.city, limit: 1, testUrl: 'http://localhost/examples/stepstone.html'
+      }, function (err, result) {
+        reply(result.entries);
       });
     }
   });
