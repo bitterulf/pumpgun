@@ -41,6 +41,10 @@ describe('webserver', function(){
     it('should display scraped indeed content', function() {
       assert.ok(this.browser.success);
       assert.equal(this.browser.text('h1'), 'indeed');
+      this.browser.assert.text('#jl_f6c90cad1d1406ba a[href="http://localhost/rc/clk?jk=f6c90cad1d1406ba"] h2', 'Betreuer (m/w)');
+      this.browser.assert.text('#jl_f6c90cad1d1406ba div.company', 'UNIONHILFSWERK');
+      this.browser.assert.text('#jl_f6c90cad1d1406ba div.location', 'Berlin');
+      this.browser.assert.elements('.job', 10);
     });
   })
 });
