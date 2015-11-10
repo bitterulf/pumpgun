@@ -1,7 +1,6 @@
-var seneca = require('seneca')();
-var client = seneca.client();
-
 exports.register = function (server, options, next) {
+  var client = options.seneca.client();
+
   server.route({
     method: 'GET',
     path:'/',

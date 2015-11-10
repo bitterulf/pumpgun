@@ -1,7 +1,5 @@
-var seneca = require('seneca')();
-
 exports.register = function (server, options, next) {
-  var seneca = require('seneca')();
+  var seneca = options.seneca;
 
   seneca.add({ role:'request', cmd:'index' }, function (args, callback) {
     callback(null, {
@@ -11,24 +9,6 @@ exports.register = function (server, options, next) {
       }
     })
   })
-
-  seneca.add({ role:'scrape', cmd:'indeed' }, function (args, callback) {
-    require('../provider/indeed.js').list(args.city, args.limit, function(err, result) {
-      callback(null, {
-        entries: result
-      });
-    }, args.testUrl);
-  })
-
-  seneca.add({ role:'scrape', cmd:'stepstone' }, function (args, callback) {
-    require('../provider/stepstone.js').list(args.city, args.limit, function(err, result) {
-      callback(null, {
-        entries: result
-      });
-    }, args.testUrl);
-  })
-
-  seneca.listen();
 
   next();
 };

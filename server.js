@@ -39,12 +39,15 @@ module.exports  = function server (config, cb) {
     port: config.port
   });
 
+  var seneca = require('seneca')();
+
   server.register([
     {register: require('good'), options: options.good },
     {register: require('vision'), options: {} },
     {register: require('inert'), options: {} },
-    {register: require('./plugins/web.js'), options: {city: config.city, port: config.port} },
-    {register: require('./plugins/main.js'), options: {} }
+    {register: require('./plugins/web.js'), options: {seneca: seneca, city: config.city, port: config.port} },
+    {register: require('./plugins/scraper.js'), options: {seneca: seneca} },
+    {register: require('./plugins/main.js'), options: {seneca: seneca} }
   ], function(err) {
     if (err) {
       return cb(err);
