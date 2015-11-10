@@ -17,7 +17,7 @@ exports.register = function (server, options, next) {
     handler: function (request, reply) {
       client.act({
         role:'scrape', cmd:'indeed', city: options.city, limit: 1,
-        testUrl: 'http://localhost:'+options.port+'/examples/indeed.html'
+        testUrl: 'http://localhost:'+options.port+'/examples/indeed1.html'
       }, function (err, result) {
         result.title = 'indeed';
         reply.view('jobList', result);
@@ -30,7 +30,7 @@ exports.register = function (server, options, next) {
     path:'/test/job',
     handler: function (request, reply) {
       client.act({
-        role:'job', cmd:'scrape', city: options.city, test: true
+        role:'job', cmd:'scrape', city: options.city, test: 1
       }, function (err, result) {
         reply(result);
       });
@@ -43,7 +43,7 @@ exports.register = function (server, options, next) {
     handler: function (request, reply) {
       client.act({
         role:'scrape', cmd:'stepstone', city: options.city, limit: 1,
-        testUrl: 'http://localhost:'+options.port+'/examples/stepstone.html'
+        testUrl: 'http://localhost:'+options.port+'/examples/stepstone1.html'
       }, function (err, result) {
         result.title = 'stepstone';
         reply.view('jobList', result);
