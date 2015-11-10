@@ -48,7 +48,7 @@ module.exports  = function server (config, cb) {
     {register: require('./plugins/web.js'), options: {seneca: seneca, city: config.city, port: config.port} },
     {register: require('./plugins/scraper.js'), options: {seneca: seneca} },
     {register: require('./plugins/main.js'), options: {seneca: seneca} },
-    {register: require('./plugins/job.js'), options: {seneca: seneca} }
+    {register: require('./plugins/job.js'), options: {seneca: seneca, city: config.city, port: config.port} }
   ], function(err) {
     if (err) {
       return cb(err);
