@@ -60,4 +60,12 @@ describe('webserver', function(){
       this.browser.assert.elements('.job', 25);
     });
   })
+  describe('job test', function(){
+    before(function(done) {
+      this.browser.visit('/test/job', done);
+    });
+    it('should return fine', function() {
+      assert.ok(this.browser.success);
+    });
+  })
 });

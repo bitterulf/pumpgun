@@ -27,6 +27,18 @@ exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
+    path:'/test/job',
+    handler: function (request, reply) {
+      client.act({
+        role:'job', cmd:'scrape', city: options.city, test: true
+      }, function (err, result) {
+        reply(result);
+      });
+    }
+  });
+
+  server.route({
+    method: 'GET',
     path:'/test/stepstone',
     handler: function (request, reply) {
       client.act({
