@@ -10,7 +10,8 @@ describe('webserver', function(){
   this.timeout(100000);
   before(function(done) {
     var that = this;
-    require('../server.js')({host: host, port: port, test: true}, function(err, server) {
+    that.seneca = require('seneca')();
+    require('../server.js')({host: host, port: port, test: true, seneca: that.seneca}, function(err, server) {
       that.server = server;
       that.browser = new Browser({site: site});
       done();
