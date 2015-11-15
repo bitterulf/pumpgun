@@ -69,4 +69,22 @@ describe('webserver', function(){
       assert.ok(this.browser.success);
     });
   })
+  // testing trough seneca directly is a bad idea...
+  describe('first compare test', function(){
+    it('should return only new entries', function() {
+      this.seneca.act({role:'diff', cmd:'compare', entries: [{id: 'A1'}]}, function(err, result) {
+        assert.equal(result.add.length, 1);
+        assert.equal(result.add[0].id, 'A1');
+        assert.equal(result.remove.length, 0);
+      });
+    });
+    it('should return one added and one removed entry', function() {
+      this.seneca.act({role:'diff', cmd:'compare', entries: [{id: 'A2'}]}, function(err, result) {
+        assert.equal(result.add.length, 1);
+        assert.equal(result.add[0].id, 'A2');
+        assert.equal(result.remove.length, 1);
+        assert.equal(result.remove[0].id, 'A1');
+      });
+    });
+  })
 });
