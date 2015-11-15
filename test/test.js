@@ -2,12 +2,14 @@ process.env.NODE_ENV = 'test';
 
 var assert = require("assert");
 var Browser = require('zombie');
+Browser.waitDuration = '30s';
 
 var host = 'localhost';
 var port = 8080;
 var site = 'http://'+host+':'+port;
 
 describe('webserver', function(){
+  this.timeout(100000);
   before(function(done) {
     var that = this;
     require('../server.js')({host: host, port: port}, function(err, server) {
