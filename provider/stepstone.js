@@ -4,11 +4,13 @@ var x = Xray();
 var streamToCallback = require('../streamToCallback.js');
 
 module.exports = {
-  list: function(city, limit, cb, testUrl) {
+  list: function(city, limit, test, cb) {
     var url = 'http://www.stepstone.de/5/ergebnisliste.html?ws='+city;
-    if (testUrl) {
-      url = testUrl;
+
+    if (test) {
+      url = 'http://localhost:8080/examples/stepstone1.html';
     }
+
     var xstream = x(url, '#resultlist .joblisting', [{
       id: '.job_title a@id',
       title: '.job_info .job_title a span',

@@ -4,11 +4,13 @@ var x = Xray();
 var streamToCallback = require('../streamToCallback.js');
 
 module.exports = {
-  list: function(city, limit, cb, testUrl) {
+  list: function(city, limit, test, cb) {
     var url = 'http://de.indeed.com/Jobs?q=&l='+city;
-    if (testUrl) {
-      url = testUrl;
+
+    if (test) {
+      url = 'http://localhost:8080/examples/indeed1.html';
     }
+
     var xstream = x(url, '#resultsCol [data-tn-component="organicJob"] ', [{
       id: '.jobtitle@id',
       title: '.jobtitle a',

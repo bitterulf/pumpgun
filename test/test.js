@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'test';
-
 var assert = require("assert");
 var Browser = require('zombie');
 Browser.waitDuration = '30s';
@@ -12,7 +10,7 @@ describe('webserver', function(){
   this.timeout(100000);
   before(function(done) {
     var that = this;
-    require('../server.js')({host: host, port: port}, function(err, server) {
+    require('../server.js')({host: host, port: port, test: true}, function(err, server) {
       that.server = server;
       that.browser = new Browser({site: site});
       done();

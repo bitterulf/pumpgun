@@ -40,16 +40,15 @@ module.exports  = function server (config, cb) {
   });
 
   var seneca = require('seneca')();
-
   server.register([
     {register: require('good'), options: options.good },
     {register: require('vision'), options: {} },
     {register: require('inert'), options: {} },
-    {register: require('./plugins/web.js'), options: {seneca: seneca, city: config.city, port: config.port} },
-    {register: require('./plugins/scraper.js'), options: {seneca: seneca} },
-    {register: require('./plugins/main.js'), options: {seneca: seneca} },
-    {register: require('./plugins/job.js'), options: {seneca: seneca, city: config.city, port: config.port} },
-    {register: require('./plugins/diff.js'), options: {seneca: seneca} }
+    {register: require('./plugins/web.js'), options: {test: config.test, seneca: seneca, city: config.city, port: config.port} },
+    {register: require('./plugins/scraper.js'), options: {test: config.test, seneca: seneca} },
+    {register: require('./plugins/main.js'), options: {test: config.test, seneca: seneca} },
+    {register: require('./plugins/job.js'), options: {test: config.test, seneca: seneca, city: config.city, port: config.port} },
+    {register: require('./plugins/diff.js'), options: {test: config.test, seneca: seneca} }
   ], function(err) {
     if (err) {
       return cb(err);
