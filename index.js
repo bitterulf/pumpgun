@@ -1,10 +1,10 @@
-if (!process.argv[2]) {
+if (!process.argv[2] || !process.argv[3]) {
   process.exit();
 }
 
 var seneca = require('seneca')();
 
-require('./server.js')({city: process.argv[2], host: 'localhost', port: 80, seneca: seneca, interval: 60 * 15}, function(err) {
+require('./server.js')({city: process.argv[3], host: 'localhost', port: process.argv[2], seneca: seneca, interval: 60 * 15, test: true}, function(err) {
   if (err) {
     throw err;
   }
