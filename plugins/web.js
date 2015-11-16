@@ -13,12 +13,13 @@ exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
-    path:'/test/indeed',
+    path:'/test/{provider}',
     handler: function (request, reply) {
+      var provider = request.params.provider;
       client.act({
-        role:'scrape', cmd:'indeed', city: options.city, limit: 1
+        role:'scrape', cmd: provider, city: options.city, limit: 1
       }, function (err, result) {
-        result.title = 'indeed';
+        result.title = provider;
         reply.view('jobList', result);
       });
     }
@@ -32,19 +33,6 @@ exports.register = function (server, options, next) {
         role:'job', cmd:'scrape', city: options.city, test: 1
       }, function (err, result) {
         reply(result);
-      });
-    }
-  });
-
-  server.route({
-    method: 'GET',
-    path:'/test/stepstone',
-    handler: function (request, reply) {
-      client.act({
-        role:'scrape', cmd:'stepstone', city: options.city, limit: 1
-      }, function (err, result) {
-        result.title = 'stepstone';
-        reply.view('jobList', result);
       });
     }
   });
