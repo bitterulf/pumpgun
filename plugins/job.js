@@ -9,7 +9,8 @@ exports.register = function (server, options, next) {
         role:'scrape', cmd:'stepstone', city: options.city, limit: 1
       }, function (err, stepstoneResult) {
         callback(null, {
-          entries: indeedResult.entries.concat(stepstoneResult.entries)
+          indeed: indeedResult.entries,
+          stepstone: stepstoneResult.entries
         });
       });
     });

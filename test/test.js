@@ -63,9 +63,10 @@ describe('webserver', function(){
     });
   })
   describe('job api', function(){
-    it('should return 35 results', function(done) {
+    it('should return 10 indeed and 25 stepstone results', function(done) {
       request({ uri: site+'/api/jobs', method: 'get', json: true }, function (err, res, result) {
-        assert.equal(result.entries.length, 35);
+        assert.equal(result.indeed.length, 10);
+        assert.equal(result.stepstone.length, 25);
         done();
       });
     });
