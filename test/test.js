@@ -62,12 +62,12 @@ describe('webserver', function(){
       this.browser.assert.elements('.job', 25);
     });
   })
-  describe('job test', function(){
-    before(function(done) {
-      this.browser.visit('/test/job', done);
-    });
-    it('should return fine', function() {
-      assert.ok(this.browser.success);
+  describe('job api', function(){
+    it('should return 35 results', function(done) {
+      request({ uri: site+'/api/jobs', method: 'get', json: true }, function (err, res, result) {
+        assert.equal(result.entries.length, 35);
+        done();
+      });
     });
   })
   describe('compare api', function(){

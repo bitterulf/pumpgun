@@ -26,7 +26,7 @@ exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
-    path:'/test/job',
+    path:'/api/jobs',
     handler: function (request, reply) {
       client.act({
         role:'job', cmd:'scrape', city: options.city, test: 1
