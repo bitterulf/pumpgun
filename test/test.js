@@ -95,5 +95,22 @@ describe('webserver', function(){
         done()
       });
     })
+    it('fourth push should give a single add back even if a second provider is pushed', function(done) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a3'}], p2: [{id: 'b1'}] } } }, function (err, res, result) {
+        assert.equal(result.add.length, 1);
+        assert.equal(result.add[0].id, 'a3');
+        assert.equal(result.remove.length, 0);
+        done()
+      });
+    })
+    it('fifth push should give add and a remove back for the second provider', function(done) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a3'}], p2: [{id: 'b2'}] } } }, function (err, res, result) {
+        assert.equal(result.add.length, 1);
+        assert.equal(result.add[0].id, 'b2');
+        assert.equal(result.remove.length, 1);
+        assert.equal(result.remove[0].id, 'b1');
+        done()
+      });
+    })
   })
 });
