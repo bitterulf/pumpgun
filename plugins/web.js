@@ -17,6 +17,7 @@ exports.register = function (server, options, next) {
     handler: function (request, reply) {
       client.act({ role:'log', cmd:'list' }, function (err, result) {
         result.title = 'logs';
+        console.log('muma', result.entries[0].text);
         reply.view('logList', result);
       });
     }

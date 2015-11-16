@@ -10,7 +10,7 @@ exports.register = function (server, options, next) {
       }, function (err, stepstoneResult) {
         seneca.act({
           role:'log', cmd:'add', topic: 'scrape',
-          message: 'indeed: '+indeedResult.entries.length+', stepstone: '+stepstoneResult.entries
+          text: 'indeed: '+indeedResult.entries.length+', stepstone: '+stepstoneResult.entries.length
         }, function (err) {
           callback(null, {
             indeed: indeedResult.entries,

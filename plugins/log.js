@@ -1,11 +1,11 @@
 exports.register = function (server, options, next) {
   var seneca = options.seneca;
 
-  seneca.add({ role:'log', cmd:'add' }, function (args, callback) {
+  seneca.add({ role:'log', cmd:'add' }, function (args, callback) {;
     var logEntry = seneca.make('log');
     logEntry.timestamp = Date.now();
     logEntry.topic = args.topic;
-    logEntry.message = args.message;
+    logEntry.text = args.text;
     logEntry.save$(function(err, entity){
       callback(err, {entity: entity});
     });

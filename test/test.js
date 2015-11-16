@@ -114,4 +114,15 @@ describe('webserver', function(){
       });
     })
   })
+  describe('logs', function(){
+    before(function(done) {
+      this.browser.visit('/logs', done);
+    });
+    it('should be filled', function() {
+      assert.ok(this.browser.success);
+      assert.equal(this.browser.text('h1'), 'logs');
+      this.browser.assert.elements('.logLine', 1);
+      assert.equal(this.browser.text('.logLine'), '<scrape> indeed: 10, stepstone: 25');
+    });
+  })
 });
