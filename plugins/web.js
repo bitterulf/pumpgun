@@ -39,6 +39,26 @@ exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
+    path:'/api/trigger',
+    handler: function (request, reply) {
+      client.act({role:'trigger', cmd:'run'}, function (err, result) {
+        reply(result);
+      });
+    }
+  });
+
+  server.route({
+    method: 'GET',
+    path:'/api/trigger/report',
+    handler: function (request, reply) {
+      client.act({role:'trigger', cmd:'report'}, function (err, result) {
+        reply(result);
+      });
+    }
+  })
+
+  server.route({
+    method: 'GET',
     path:'/api/jobs',
     handler: function (request, reply) {
       client.act({

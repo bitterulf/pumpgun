@@ -12,7 +12,7 @@ describe('webserver', function(){
   before(function(done) {
     var that = this;
     that.seneca = require('seneca')();
-    require('../server.js')({host: host, port: port, test: true, seneca: that.seneca}, function(err, server) {
+    require('../server.js')({host: host, port: port, test: true, seneca: that.seneca, interval: 1}, function(err, server) {
       that.server = server;
       that.browser = new Browser({site: site});
       done();
