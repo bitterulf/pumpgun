@@ -21,15 +21,24 @@ exports.register = function (server, options, next) {
     });
   });
 
-  seneca.add({ role:'trigger', cmd:'execute' }, function (args, callback) {;
+  seneca.add({ role:'trigger', cmd:'execute' }, function (args, callback) {
     var triggerEntry = seneca.make('trigger');
-    triggerEntry.timestamp = Date.now();
+    var timestamp = Date.now();
+    triggerEntry.timestamp = timestamp;
 
     triggerEntry.save$(function(err, entity){
       seneca.act({ role:'job', cmd:'scrape' }, function (err, result) {
         seneca.act({ role:'diff', cmd:'compare', provider: result }, function (err, result) {
           // here it should save the add and remove elements
           callback(null, result);
+          result.add.forEach(function(addEntry) {
+            addEntry.timestamp = timestamp;
+            console.log(addEntry);
+          });
+          result.remove.forEach(function(removeEntry) {
+            removeEntry.timestamp = timestamp;
+            console.log(removeEntry);
+          });
         });
       });
     });
