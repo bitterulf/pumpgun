@@ -9,7 +9,7 @@ exports.register = function (server, options, next) {
         jobDump.entries = entries;
         jobDump.save$(function(err, entity){
           callback(null, {
-            add: entries,
+            add: [],
             remove: []
           });
         })

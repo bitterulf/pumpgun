@@ -49,6 +49,18 @@ exports.register = function (server, options, next) {
     }
   });
 
+  server.route({
+    method: 'POST',
+    path:'/api/push',
+    handler: function (request, reply) {
+      client.act({
+        role:'diff', cmd:'compare', entries: request.payload.entries
+      }, function (err, result) {
+        reply(result);
+      });
+    }
+  });
+
   next();
 };
 

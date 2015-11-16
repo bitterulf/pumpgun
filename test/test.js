@@ -1,3 +1,4 @@
+var request = require('request');
 var assert = require("assert");
 var Browser = require('zombie');
 Browser.waitDuration = '30s';
@@ -69,22 +70,30 @@ describe('webserver', function(){
       assert.ok(this.browser.success);
     });
   })
-  // testing trough seneca directly is a bad idea...
-  describe('first compare test', function(){
-    it('should return only new entries', function() {
-      this.seneca.act({role:'diff', cmd:'compare', entries: [{id: 'A1'}]}, function(err, result) {
-        assert.equal(result.add.length, 1);
-        assert.equal(result.add[0].id, 'A1');
+  describe('compare api', function(){
+    it('first push should not give any changes back', function(done) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { entries: [{id: 'a1'}] } }, function (err, res, result) {
+        assert.equal(result.add.length, 0);
         assert.equal(result.remove.length, 0);
+        done()
       });
     });
-    it('should return one added and one removed entry', function() {
-      this.seneca.act({role:'diff', cmd:'compare', entries: [{id: 'A2'}]}, function(err, result) {
+    it('second push should give a remove and a add back', function(done) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { entries: [{id: 'a2'}] } }, function (err, res, result) {
         assert.equal(result.add.length, 1);
-        assert.equal(result.add[0].id, 'A2');
+        assert.equal(result.add[0].id, 'a2');
         assert.equal(result.remove.length, 1);
-        assert.equal(result.remove[0].id, 'A1');
+        assert.equal(result.remove[0].id, 'a1');
+        done()
       });
-    });
+    })
+    it('third push should give a single remove back', function(done) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { entries: [] } }, function (err, res, result) {
+        assert.equal(result.add.length, 0);
+        assert.equal(result.remove.length, 1);
+        assert.equal(result.remove[0].id, 'a2');
+        done()
+      });
+    })
   })
 });
