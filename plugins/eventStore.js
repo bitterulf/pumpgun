@@ -12,6 +12,14 @@ exports.register = function (server, options, next) {
     });
   });
 
+  seneca.add({ role:'eventStore', cmd:'list' }, function (args, callback) {
+    var eventEntry = seneca.make('event');
+
+    eventEntry.list$({sort$:{timestamp: -1}}, function(err, entries){
+      callback(err, {entries: entries});
+    });
+  });
+
   next();
 };
 

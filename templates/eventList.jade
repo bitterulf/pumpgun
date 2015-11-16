@@ -1,0 +1,10 @@
+extends layout
+
+block title
+  title= title
+
+block content
+  h1= title
+  div
+    each entry in entries
+      div.event= entry.timestamp+'<' + entry.type + '> ' + entry.data.title
