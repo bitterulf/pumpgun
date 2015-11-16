@@ -13,6 +13,17 @@ exports.register = function (server, options, next) {
 
   server.route({
     method: 'GET',
+    path:'/logs',
+    handler: function (request, reply) {
+      client.act({ role:'log', cmd:'list' }, function (err, result) {
+        result.title = 'logs';
+        reply.view('logList', result);
+      });
+    }
+  });
+
+  server.route({
+    method: 'GET',
     path:'/test/{provider}',
     handler: function (request, reply) {
       var provider = request.params.provider;
