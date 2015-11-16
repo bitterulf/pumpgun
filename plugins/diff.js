@@ -1,10 +1,31 @@
+var async = require('async');
+var _ = require('underscore');
+
 exports.register = function (server, options, next) {
   var seneca = options.seneca;
 
   seneca.add({ role:'diff', cmd:'compare' }, function (args, callback) {
-    seneca.act({ role:'diff', cmd:'compareProvider', provider: 'p1', entries: args.provider.p1}, function (err, result) {
-      callback(null, result);
-    })
+
+    var fns = _.keys(args.provider).map(function(providerKey) {
+      var provider = providerKey;
+      var entries = args.provider[providerKey];
+      return function(cb) {
+        seneca.act({ role:'diff', cmd:'compareProvider', provider: provider, entries: entries}, function (err, result) {
+          cb(null, result);
+        })
+      };
+    });
+
+    async.parallel(fns,
+      function(err, results){
+        var result = { add: [], remove: [] };
+        results.forEach(function(set) {
+          result.add = result.add.concat(set.add);
+          result.remove = result.remove.concat(set.remove);
+        });
+        callback(null, result);
+      }
+    );
   });
 
   seneca.add({ role:'diff', cmd:'compareProvider' }, function (args, callback) {
