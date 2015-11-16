@@ -44,7 +44,7 @@ module.exports  = function server (config, cb) {
     {register: require('vision'), options: {} },
     {register: require('inert'), options: {} },
     {register: require('./plugins/web.js'), options: {test: config.test, seneca: config.seneca, city: config.city, port: config.port} },
-    {register: require('./plugins/scraper.js'), options: {test: config.test, seneca: config.seneca} },
+    {register: require('./plugins/scraper.js'), options: {test: config.test, port: config.port, seneca: config.seneca} },
     {register: require('./plugins/main.js'), options: {test: config.test, seneca: config.seneca} },
     {register: require('./plugins/job.js'), options: {test: config.test, seneca: config.seneca, city: config.city, port: config.port} },
     {register: require('./plugins/diff.js'), options: {test: config.test, seneca: config.seneca} },
