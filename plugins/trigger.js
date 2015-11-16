@@ -32,12 +32,12 @@ exports.register = function (server, options, next) {
           // here it should save the add and remove elements
           callback(null, result);
           result.add.forEach(function(addEntry) {
-            addEntry.timestamp = timestamp;
-            console.log(addEntry);
+            seneca.act({ role:'eventStore', cmd:'save', type: 'add', data: addEntry, timestamp: timestamp }, function (err, result) {
+            });
           });
           result.remove.forEach(function(removeEntry) {
-            removeEntry.timestamp = timestamp;
-            console.log(removeEntry);
+            seneca.act({ role:'eventStore', cmd:'save', type: 'remove', data: removeEntry, timestamp: timestamp }, function (err, result) {
+            });
           });
         });
       });
