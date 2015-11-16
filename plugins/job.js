@@ -8,9 +8,14 @@ exports.register = function (server, options, next) {
       seneca.act({
         role:'scrape', cmd:'stepstone', city: options.city
       }, function (err, stepstoneResult) {
-        callback(null, {
-          indeed: indeedResult.entries,
-          stepstone: stepstoneResult.entries
+        seneca.act({
+          role:'log', cmd:'add', topic: 'scrape',
+          message: 'indeed: '+indeedResult.entries.length+', stepstone: '+stepstoneResult.entries
+        }, function (err) {
+          callback(null, {
+            indeed: indeedResult.entries,
+            stepstone: stepstoneResult.entries
+          });
         });
       });
     });
