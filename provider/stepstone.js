@@ -3,12 +3,17 @@ var x = Xray();
 
 var streamToCallback = require('../streamToCallback.js');
 
+var counter = 1;
+
 module.exports = {
   list: function(city, limit, port, test, cb) {
     var url = 'http://www.stepstone.de/5/ergebnisliste.html?ws='+city;
 
     if (test) {
-      url = 'http://localhost:'+port+'/examples/stepstone1.html';
+      url = 'http://localhost:'+port+'/examples/stepstone'+counter+'.html';
+      if (counter < 2) {
+        counter++;
+      }
     }
 
     var xstream = x(url, '#resultlist .joblisting', [{
