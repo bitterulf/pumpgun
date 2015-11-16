@@ -14,7 +14,7 @@ exports.register = function (server, options, next) {
       else {
         seneca.act({role:'trigger', cmd:'execute'}, function(err, result) {
           callback(null, {
-            result: 'run'
+            result: result
           });
         });
       }
@@ -26,7 +26,12 @@ exports.register = function (server, options, next) {
     triggerEntry.timestamp = Date.now();
 
     triggerEntry.save$(function(err, entity){
-      callback(null);
+      seneca.act({ role:'job', cmd:'scrape' }, function (err, result) {
+        seneca.act({ role:'diff', cmd:'compare', provider: result }, function (err, result) {
+          // here it should save the add and remove elements
+          callback(null, result);
+        });
+      });
     });
   });
 
