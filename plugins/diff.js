@@ -4,7 +4,8 @@ exports.register = function (server, options, next) {
   seneca.add({ role:'diff', cmd:'compare' }, function (args, callback) {
     var entries = args.entries;
     var jobDump = seneca.make('jobDump');
-    jobDump.list$({sort$:{timestamp:1}}, function(err,list){
+
+    jobDump.list$({sort$:{timestamp: 1}}, function(err,list){
       if (!list.length) {
         jobDump.entries = entries;
         jobDump.save$(function(err, entity){
@@ -30,6 +31,7 @@ exports.register = function (server, options, next) {
         var add = diff(entries, oldEntries);
         var remove = diff(oldEntries, entries);
 
+        jobDump.timestamp = Date.now();
         jobDump.entries = entries;
         jobDump.save$(function(err, entity){
           callback(null, {
