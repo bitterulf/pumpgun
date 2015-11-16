@@ -2,12 +2,20 @@ exports.register = function (server, options, next) {
   var seneca = options.seneca;
 
   seneca.add({ role:'diff', cmd:'compare' }, function (args, callback) {
+    seneca.act({ role:'diff', cmd:'compareProvider', provider: 'p1', entries: args.provider.p1}, function (err, result) {
+      callback(null, result);
+    })
+  });
+
+  seneca.add({ role:'diff', cmd:'compareProvider' }, function (args, callback) {
     var entries = args.entries;
     var jobDump = seneca.make('jobDump');
 
-    jobDump.list$({sort$:{timestamp: 1}}, function(err,list){
+    jobDump.list$({provider: args.provider, sort$:{timestamp: -1}}, function(err,list){
       if (!list.length) {
+        jobDump.timestamp = Date.now();
         jobDump.entries = entries;
+        jobDump.provider = args.provider;
         jobDump.save$(function(err, entity){
           callback(null, {
             add: [],
@@ -33,6 +41,7 @@ exports.register = function (server, options, next) {
 
         jobDump.timestamp = Date.now();
         jobDump.entries = entries;
+        jobDump.provider = args.provider;
         jobDump.save$(function(err, entity){
           callback(null, {
             add: add,

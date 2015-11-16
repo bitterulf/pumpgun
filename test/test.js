@@ -72,14 +72,14 @@ describe('webserver', function(){
   })
   describe('compare api', function(){
     it('first push should not give any changes back', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { entries: [{id: 'a1'}] } }, function (err, res, result) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a1'}]} } }, function (err, res, result) {
         assert.equal(result.add.length, 0);
         assert.equal(result.remove.length, 0);
         done()
       });
     });
     it('second push should give a remove and a add back', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { entries: [{id: 'a2'}] } }, function (err, res, result) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a2'}]} } }, function (err, res, result) {
         assert.equal(result.add.length, 1);
         assert.equal(result.add[0].id, 'a2');
         assert.equal(result.remove.length, 1);
@@ -88,7 +88,7 @@ describe('webserver', function(){
       });
     })
     it('third push should give a single remove back', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { entries: [] } }, function (err, res, result) {
+      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [] } } }, function (err, res, result) {
         assert.equal(result.add.length, 0);
         assert.equal(result.remove.length, 1);
         assert.equal(result.remove[0].id, 'a2');

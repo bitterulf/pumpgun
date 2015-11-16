@@ -54,7 +54,7 @@ exports.register = function (server, options, next) {
     path:'/api/push',
     handler: function (request, reply) {
       client.act({
-        role:'diff', cmd:'compare', entries: request.payload.entries
+        role:'diff', cmd:'compare', provider: request.payload.provider
       }, function (err, result) {
         reply(result);
       });
