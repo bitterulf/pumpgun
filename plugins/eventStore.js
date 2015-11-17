@@ -1,4 +1,6 @@
 var _ = require('underscore');
+var moment = require('moment');
+// moment.lang('de');
 
 exports.register = function (server, options, next) {
   var seneca = options.seneca;
@@ -20,6 +22,10 @@ exports.register = function (server, options, next) {
     eventEntry.list$({sort$:{timestamp: -1}}, function(err, entries){
       entries = _.sortBy(entries, function(entry){ return entry.timestamp; });
       entries.reverse();
+      entries = entries.map(function(entry) {
+        entry.timeText = moment(entry.timestamp).locale('de').fromNow();
+        return entry;
+      });
 
       callback(err, {entries: entries});
     });
