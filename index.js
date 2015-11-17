@@ -2,18 +2,26 @@ if (!process.argv[2] || !process.argv[3]) {
   process.exit();
 }
 
-var seneca = require('seneca')();
+var seneca = require('seneca')({ timeout:99999 });
 
 seneca.use('jsonfile-store', {
   folder:'data'
 });
 
-require('./server.js')({city: process.argv[3], host: 'localhost', port: process.argv[2], seneca: seneca, interval: 60, test: true}, function(err) {
-  setInterval(function(){
-    seneca.act({role:'trigger', cmd:'run'}, function (err, result) {
-      console.log('triggered');
-    });
-  }, 60 * 1000);
+var test = false;
+
+require('./server.js')({city: process.argv[3], host: 'localhost', port: process.argv[2], seneca: seneca, interval: 60 * 15, test: test}, function(err) {
+  if (!test) {}
+    var t = function() {
+      seneca.act({role:'trigger', cmd:'run'}, function (err, result) {
+        console.log('triggered');
+      });
+    };
+    setInterval(function(){
+      t();
+    }, 60 * 1000);
+    t();
+  }
   if (err) {
     throw err;
   }

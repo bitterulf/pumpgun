@@ -83,6 +83,7 @@ exports.register = function (server, options, next) {
     method: 'POST',
     path:'/api/push',
     handler: function (request, reply) {
+      console.log('push payload', request.payload);
       client.act({
         role:'diff', cmd:'compare', provider: request.payload.provider
       }, function (err, result) {

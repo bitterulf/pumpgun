@@ -1,7 +1,7 @@
 exports.register = function (server, options, next) {
   var seneca = options.seneca;
 
-  seneca.add({ role:'trigger', cmd:'run' }, function (args, callback) {;
+  seneca.add({ role:'trigger', cmd:'run' }, function (args, callback) {
     var triggerEntry = seneca.make('trigger');
     triggerEntry.list$({}, function(err, entries){
       entries = entries.filter(function(entry) { return +entry.timestamp > Date.now() - options.interval * 1000; });

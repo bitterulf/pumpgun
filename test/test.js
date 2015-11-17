@@ -1,7 +1,8 @@
-var request = require('request');
 var assert = require("assert");
 var Browser = require('zombie');
 Browser.waitDuration = '30s';
+
+var unirest = require('unirest');
 
 var host = 'localhost';
 var port = 8080;
@@ -64,52 +65,62 @@ describe('webserver', function(){
   })
   describe('job api', function(){
     it('should return 10 indeed and 25 stepstone results', function(done) {
-      request({ uri: site+'/api/jobs', method: 'get', json: true }, function (err, res, result) {
-        assert.equal(result.indeed.length, 10);
-        assert.equal(result.stepstone.length, 25);
+      unirest.get(site+'/api/jobs').header('Accept', 'application/json').send().end(function (result) {
+        assert.equal(result.body.indeed.length, 10);
+        assert.equal(result.body.stepstone.length, 25);
         done();
       });
     });
   })
   describe('compare api', function(){
     it('first push should not give any changes back', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a1'}]} } }, function (err, res, result) {
-        assert.equal(result.add.length, 0);
-        assert.equal(result.remove.length, 0);
+      unirest.post(site+'/api/push').header('Accept', 'application/json').type('json').send(
+        { provider: { p1: [{id: 'a1'}]} }
+      ).end(function (result) {
+        assert.equal(result.body.add.length, 0);
+        assert.equal(result.body.remove.length, 0);
         done()
       });
     });
     it('second push should give a remove and a add back', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a2'}]} } }, function (err, res, result) {
-        assert.equal(result.add.length, 1);
-        assert.equal(result.add[0].id, 'a2');
-        assert.equal(result.remove.length, 1);
-        assert.equal(result.remove[0].id, 'a1');
+      unirest.post(site+'/api/push').header('Accept', 'application/json').type('json').send(
+        { provider: { p1: [{id: 'a2'}]} }
+      ).end(function (result) {
+        assert.equal(result.body.add.length, 1);
+        assert.equal(result.body.add[0].id, 'a2');
+        assert.equal(result.body.remove.length, 1);
+        assert.equal(result.body.remove[0].id, 'a1');
         done()
       });
     })
     it('third push should give a single remove back', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [] } } }, function (err, res, result) {
-        assert.equal(result.add.length, 0);
-        assert.equal(result.remove.length, 1);
-        assert.equal(result.remove[0].id, 'a2');
+      unirest.post(site+'/api/push').header('Accept', 'application/json').type('json').send(
+        { provider: { p1: [] } }
+      ).end(function (result) {
+        assert.equal(result.body.add.length, 0);
+        assert.equal(result.body.remove.length, 1);
+        assert.equal(result.body.remove[0].id, 'a2');
         done()
       });
     })
     it('fourth push should give a single add back even if a second provider is pushed', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a3'}], p2: [{id: 'b1'}] } } }, function (err, res, result) {
-        assert.equal(result.add.length, 1);
-        assert.equal(result.add[0].id, 'a3');
-        assert.equal(result.remove.length, 0);
+      unirest.post(site+'/api/push').header('Accept', 'application/json').type('json').send(
+        { provider: { p1: [{id: 'a3'}], p2: [{id: 'b1'}] } }
+      ).end(function (result) {
+        assert.equal(result.body.add.length, 1);
+        assert.equal(result.body.add[0].id, 'a3');
+        assert.equal(result.body.remove.length, 0);
         done()
       });
     })
     it('fifth push should give add and a remove back for the second provider', function(done) {
-      request({ uri: site+'/api/push', method: 'post', json: true, body: { provider: { p1: [{id: 'a3'}], p2: [{id: 'b2'}] } } }, function (err, res, result) {
-        assert.equal(result.add.length, 1);
-        assert.equal(result.add[0].id, 'b2');
-        assert.equal(result.remove.length, 1);
-        assert.equal(result.remove[0].id, 'b1');
+      unirest.post(site+'/api/push').header('Accept', 'application/json').type('json').send(
+        { provider: { p1: [{id: 'a3'}], p2: [{id: 'b2'}] } }
+      ).end(function (result) {
+        assert.equal(result.body.add.length, 1);
+        assert.equal(result.body.add[0].id, 'b2');
+        assert.equal(result.body.remove.length, 1);
+        assert.equal(result.body.remove[0].id, 'b1');
         done()
       });
     })
