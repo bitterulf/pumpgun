@@ -21,8 +21,6 @@ var scrape = function(cb) {
     ).end(function (reponse) {
       var result = reponse.body;
       var timestamp = Date.now();
-      console.log('REZ', result);
-      console.log('REZADD', result.add);
       result.add.forEach(function(addEntry) {
         seneca.act({ role:'eventStore', cmd:'save', type: 'add', data: addEntry, timestamp: timestamp }, function (err, result) {
         });
