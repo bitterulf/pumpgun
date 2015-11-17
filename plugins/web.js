@@ -82,8 +82,12 @@ exports.register = function (server, options, next) {
   server.route({
     method: 'POST',
     path:'/api/push',
+    config: {
+      payload: {
+        maxBytes: 104857600
+      }
+    },
     handler: function (request, reply) {
-      console.log('push payload', request.payload);
       client.act({
         role:'diff', cmd:'compare', provider: request.payload.provider
       }, function (err, result) {
