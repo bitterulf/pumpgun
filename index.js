@@ -1,8 +1,12 @@
 var unirest = require('unirest');
 
-if (!process.argv[2] || !process.argv[3]) {
+if (!process.argv[2] || !process.argv[3] || !process.argv[4]) {
   process.exit();
 }
+
+var host = process.argv[2];
+var port = process.argv[3];
+var city = process.argv[4];
 
 var seneca = require('seneca')({ timeout:99999 });
 
@@ -15,8 +19,8 @@ var test = false;
 var scraping = false;
 
 var scrape = function(cb) {
-  require('./provider/stepstone.js').list(process.argv[3], 160, process.argv[2], test, function(err, result) {
-    unirest.post('http://localhost:'+process.argv[2]+'/api/push').header('Accept', 'application/json').type('json').send(
+  require('./provider/stepstone.js').list(city, 160, port, test, function(err, result) {
+    unirest.post('http://'+host+':'+port+'/api/push').header('Accept', 'application/json').type('json').send(
       { provider: { stepstone: result } }
     ).end(function (reponse) {
       var result = reponse.body;
@@ -34,7 +38,7 @@ var scrape = function(cb) {
   });
 };
 
-require('./server.js')({city: process.argv[3], host: 'localhost', port: process.argv[2], seneca: seneca, interval: 60 * 15, test: test}, function(err) {
+require('./server.js')({city: city, host: host, port: port, seneca: seneca, interval: 60 * 15, test: test}, function(err) {
   if (!test) {
     setInterval(function(){
       if (!scraping) {
