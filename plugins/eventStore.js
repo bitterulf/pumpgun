@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 exports.register = function (server, options, next) {
   var seneca = options.seneca;
 
@@ -16,6 +18,9 @@ exports.register = function (server, options, next) {
     var eventEntry = seneca.make('event');
 
     eventEntry.list$({sort$:{timestamp: -1}}, function(err, entries){
+      entries = _.sortBy(entries, function(entry){ return entry.timestamp; });
+      entries.reverse();
+
       callback(err, {entries: entries});
     });
   });
