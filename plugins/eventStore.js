@@ -32,6 +32,7 @@ exports.register = function (server, options, next) {
           cleanedEntries.push(entry);
         }
       });
+      entries = cleanedEntries;
 
       entries.reverse();
       entries = entries.map(function(entry) {
