@@ -21,6 +21,18 @@ exports.register = function (server, options, next) {
 
     eventEntry.list$({sort$:{timestamp: -1}}, function(err, entries){
       entries = _.sortBy(entries, function(entry){ return entry.timestamp; });
+
+      var memory = [];
+      var cleanedEntries = [];
+
+      entries.forEach(function(entry) {
+        var key = entry.type + '_' + entry.data.id;
+        if (memory.indexOf(key) < 0) {
+          memory.push(key);
+          cleanedEntries.push(entry);
+        }
+      });
+
       entries.reverse();
       entries = entries.map(function(entry) {
         entry.timeText = moment(entry.timestamp).locale('de').fromNow();
